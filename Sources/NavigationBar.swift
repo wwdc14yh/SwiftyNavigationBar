@@ -60,9 +60,18 @@ internal class NavigationBar: UINavigationBar {
         self.insertSubview(self._backgroundFakeBar, at: 0)
         
         // shadowImageView
-        self._shadowImageView.frame = CGRect(x: x, y: h, width: w, height: 1.0 / UIScreen.main.scale)
+        self._shadowImageView.frame.origin = CGPoint(x: x, y: h)
+        self._shadowImageView.frame.size.width = w
         self.insertSubview(self._shadowImageView, at: 1)
     }
+    
+    var shadowImageViewHeight: CGFloat {
+        if let shadowImage = _shadowImageView.image {
+            return shadowImage.size.height
+        }
+        return 1.0 / UIScreen.main.scale
+    }
+
     
     // MARK: - Internal
     /// preference style
@@ -99,7 +108,18 @@ internal class NavigationBar: UINavigationBar {
         
         // shadowImageAlpha
         self._shadowImageView.alpha = style._shadowImageAlpha ?? preferenceStyle._shadowImageAlpha ?? Style.shadowImageAlpha
-        
+        let shadowContent = style._shadowContent ?? preferenceStyle._shadowContent ?? Style.shadowContent
+        UIView.performWithoutAnimation {
+            switch shadowContent {
+            case let .color(color):
+                self._shadowImageView.backgroundColor = color
+                self._shadowImageView.image = nil
+            case let .image(image):
+                self._shadowImageView.backgroundColor = nil
+                self._shadowImageView.image = image
+            }
+            self._shadowImageView.frame.size.height = self.shadowImageViewHeight
+        }
         // alpha
         self._alpha = style._alpha ?? preferenceStyle._alpha ?? Style.alpha
     }
@@ -144,6 +164,24 @@ internal class NavigationBar: UINavigationBar {
             if shadowImageAlpha != toShadowImageAlpha {
                 style._shadowImageAlpha = toShadowImageAlpha
                 self._shadowImageView.alpha = toShadowImageAlpha
+            }
+        }
+        
+        if let toShadowContent = toStyle._shadowContent {
+            let shadowContent = style._shadowContent ?? preferenceStyle._shadowContent ?? Style.shadowContent
+            if !(shadowContent == toShadowContent) {
+                style._shadowContent = toShadowContent
+                UIView.performWithoutAnimation {
+                    switch shadowContent {
+                    case let .color(color):
+                        self._shadowImageView.backgroundColor = color
+                        self._shadowImageView.image = nil
+                    case let .image(image):
+                        self._shadowImageView.backgroundColor = nil
+                        self._shadowImageView.image = image
+                    }
+                    self._shadowImageView.frame.size.height = self.shadowImageViewHeight
+                }
             }
         }
         
@@ -368,6 +406,5 @@ fileprivate class _ShadowImageView: UIImageView {
     /// init
     convenience init() {
         self.init(frame: .zero)
-        self.backgroundColor = .black
     }
 }

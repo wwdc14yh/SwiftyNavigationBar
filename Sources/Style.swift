@@ -27,6 +27,20 @@ import UIKit
 /// Style
 public class Style {
     
+    public enum ShadowContent {
+        case color(UIColor)
+        case image(UIImage)
+        public static func == (lhs: ShadowContent, rhs: ShadowContent) -> Bool {
+            switch (lhs, rhs) {
+            case (.color(let lhsColor), .color(let rhsColor)):
+                return lhsColor == rhsColor
+            case (.image(let lhsImage), .image(let rhsImage)):
+                return lhsImage.pngData() == rhsImage.pngData()
+            default: return false
+            }
+        }
+    }
+    
     /// set navigationBar.backgroundView's backgroundEffect, default: .blur(.light)
     public var backgroundEffect: Style.Effect? {
         get { return self._backgroundEffect }
@@ -81,6 +95,11 @@ public class Style {
         }
     }
     
+    public var shadowContent: ShadowContent? {
+        get { return self._shadowContent }
+        set { self._shadowContent = newValue }
+    }
+    
     /// set navigationBar's alpha, default: 1
     public var alpha: CGFloat? {
         get { return self._alpha }
@@ -106,6 +125,7 @@ public class Style {
     var _tintColor: UIColor?
     var _isWhiteBarStyle: Bool?
     var _shadowImageAlpha: CGFloat?
+    var _shadowContent: ShadowContent?
     var _alpha: CGFloat?
     
     /// init
@@ -130,6 +150,8 @@ extension Style {
     
     /// set navigationBar's shadowImageAlpha, default: 0.5
     public static var shadowImageAlpha: CGFloat = 0.5
+    
+    public static var shadowContent: ShadowContent = .color(.black)
     
     /// set navigationBar's alpha, default: 1
     public static var alpha: CGFloat = 1
