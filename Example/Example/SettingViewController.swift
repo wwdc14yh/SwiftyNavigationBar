@@ -7,9 +7,13 @@ import UIKit
 
 class SettingViewController: UIViewController {
     
-    private var _tbvSetting: UITableView!
+    private var _tbvSetting = UITableView(frame: .zero, style: .grouped)
     private let _tableViewDelegate = TableViewDelegate()
 
+    override func loadView() {
+        self.view = _tbvSetting
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Setting"
@@ -36,13 +40,12 @@ class SettingViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Push", style: .plain, target: self, action: #selector(_onPush))
         
         // _tbvSetting
-        self._tbvSetting = UITableView(frame: self.view.bounds, style: .grouped)
         self._tbvSetting.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.view.frame.height/2, right: 0)
         self._tbvSetting.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self._tbvSetting.dataSource = self._tableViewDelegate
         self._tbvSetting.delegate = self._tableViewDelegate
         self._tableViewDelegate.vc = self
-        self.view.addSubview(self._tbvSetting)
+//        self.view.addSubview(self._tbvSetting)
     }
     
     // MARK: - Action
