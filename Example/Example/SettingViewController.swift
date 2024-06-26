@@ -41,7 +41,7 @@ class SettingViewController: UIViewController {
         
         // _tbvSetting
         self._tbvSetting.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.view.frame.height/2, right: 0)
-        self._tbvSetting.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        self._tbvSetting.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self._tbvSetting.dataSource = self._tableViewDelegate
         self._tbvSetting.delegate = self._tableViewDelegate
         self._tableViewDelegate.vc = self

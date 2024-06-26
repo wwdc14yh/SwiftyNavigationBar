@@ -10,8 +10,12 @@ import UIKit
 
 class MineViewController: UIViewController {
 
-    private var _tbvSetting: UITableView!
+    private let _tbvSetting = UITableView(frame: .zero, style: .grouped)
     private let _tableViewDelegate = TableViewDelegate()
+    
+    override func loadView() {
+        self.view = _tbvSetting
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,8 +23,9 @@ class MineViewController: UIViewController {
         self.title = "Mine"
         
         // snb custiom setting
-        self.snb.style.backgroundAlpha = 0
-        self.snb.style.shadowImageAlpha = 0
+        snb.style.backgroundEffect = .color(.brown)
+        self.snb.style.backgroundAlpha = 1
+        self.snb.style.shadowImageAlpha = 1
         self.snb.style.isWhiteBarStyle = true
         self.snb.style.tintColor = .white
         self.snb.style.shadowContent = .color(.systemRed)
@@ -29,10 +34,10 @@ class MineViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Push", style: .plain, target: self, action: #selector(_onPush))
         
         // _tbvSetting
-        self._tbvSetting = UITableView(frame: self.view.bounds, style: .grouped)
-        if #available(iOS 11.0, *) {
-            self._tbvSetting.contentInsetAdjustmentBehavior = .never
-        }
+//        self._tbvSetting = UITableView(frame: self.view.bounds, style: .grouped)
+//        if #available(iOS 11.0, *) {
+//            self._tbvSetting.contentInsetAdjustmentBehavior = .never
+//        }
         self._tbvSetting.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self._tbvSetting.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.view.frame.height/2, right: 0)
         self._tbvSetting.dataSource = self._tableViewDelegate
@@ -42,7 +47,7 @@ class MineViewController: UIViewController {
         iv.contentMode = .scaleAspectFill
         iv.frame.size.height = 400
         self._tbvSetting.tableHeaderView = iv
-        self.view.addSubview(self._tbvSetting)
+//        self.view.addSubview(self._tbvSetting)
     }
     
     // MARK: - Action

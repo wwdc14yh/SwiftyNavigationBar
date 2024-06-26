@@ -58,13 +58,13 @@ extension TableViewDelegate: UITableViewDataSource, UITableViewDelegate {
         
         let threshold = tableHeaderView.bounds.size.height
         
-        let alpha = scrollView.contentOffset.y/threshold
-        self.vc?.snb.updateStyle { (style) in
-            style.backgroundAlpha = alpha
-            style.shadowImageAlpha = alpha
-            style.isWhiteBarStyle = alpha > 0.5 ? false : true
-            style.tintColor = alpha > 0.5 ? .black : .white
-        }
+//        let alpha = scrollView.contentOffset.y/threshold
+//        self.vc?.snb.updateStyle { (style) in
+//            style.backgroundAlpha = alpha
+//            style.shadowImageAlpha = alpha
+//            style.isWhiteBarStyle = alpha > 0.5 ? false : true
+//            style.tintColor = alpha > 0.5 ? .black : .white
+//        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

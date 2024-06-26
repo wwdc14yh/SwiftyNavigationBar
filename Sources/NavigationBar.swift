@@ -273,7 +273,11 @@ internal class NavigationBar: UINavigationBar {
             // set frame
             let origin = vc.view.bounds.origin
             let size = self._backgroundFakeBar.bounds.size
-            fakeBar.frame = CGRect(origin: CGPoint(x: origin.x, y: origin.y), size: size)
+            
+            let convertFrame = convert(bounds, to: vc.view)
+            let diffOffset = frame.height - size.height
+            let finalOffsetY = convertFrame.minY + diffOffset
+            fakeBar.frame = CGRect(origin: CGPoint(x: vc.view.bounds.minX, y: finalOffsetY), size: size)
             
             // add subview
             vc.view.addSubview(fakeBar)
