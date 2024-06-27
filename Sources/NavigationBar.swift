@@ -262,25 +262,23 @@ internal class NavigationBar: UINavigationBar {
         
         // set fakeBar style & frame without animation
         UIView.performWithoutAnimation {
-            // set style
-            fakeBar.setStyle(vc.snb.style, preferenceStyle: preferenceStyle)
-            
-            // set alpha according to alpha & backgroundAlpha
-            let alpha = vc.snb.style._alpha ?? preferenceStyle._alpha ?? Style.alpha
-            let backgroundAlpha = vc.snb.style._backgroundAlpha ?? preferenceStyle._backgroundAlpha ?? Style.backgroundAlpha
-            fakeBar.alpha = alpha * backgroundAlpha
-            
-            // set frame
-            let origin = vc.view.bounds.origin
-            let size = self._backgroundFakeBar.bounds.size
-            
-            let convertFrame = convert(bounds, to: vc.view)
-            let diffOffset = frame.height - size.height
-            let finalOffsetY = convertFrame.minY + diffOffset
-            fakeBar.frame = CGRect(origin: CGPoint(x: vc.view.bounds.minX, y: finalOffsetY), size: size)
-            
-            // add subview
-            vc.view.addSubview(fakeBar)
+            DispatchQueue.main.async {
+                // set style
+                fakeBar.setStyle(vc.snb.style, preferenceStyle: preferenceStyle)
+                
+                // set alpha according to alpha & backgroundAlpha
+                let alpha = vc.snb.style._alpha ?? preferenceStyle._alpha ?? Style.alpha
+                let backgroundAlpha = vc.snb.style._backgroundAlpha ?? preferenceStyle._backgroundAlpha ?? Style.backgroundAlpha
+                fakeBar.alpha = alpha * backgroundAlpha
+                
+                // set frame
+                let _bounds = vc.view.bounds
+                let size = self._backgroundFakeBar.bounds.size
+                fakeBar.frame = CGRect(origin: _bounds.origin, size: size)
+                
+                // add subview
+                vc.view.addSubview(fakeBar)
+            }
         }
     }
 }
