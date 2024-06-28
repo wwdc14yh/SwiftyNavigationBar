@@ -71,6 +71,7 @@ extension Proxy: UINavigationControllerDelegate {
     
     // MARK: - UINavigationControllerDelegate
     @objc func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        guard viewController._snb != nil else { return }
         if let preferenceStyle = self.navigationBar.preferenceStyle {
             let navBar = self.navigationBar
             let transitionCoordinator = self._navigationController.transitionCoordinator
