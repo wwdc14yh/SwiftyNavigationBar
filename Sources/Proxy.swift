@@ -42,8 +42,16 @@ internal class Proxy: NSObject {
         super.init()
         
         // config navigationBar
+        if #available(iOS 13.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithTransparentBackground()
+            navigationBar.standardAppearance = appearance
+        } else {
+            // Fallback on earlier versions
+            self.navigationBar.preferenceStyle = preferenceStyle
+            self.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        }
         self.navigationBar.preferenceStyle = preferenceStyle
-        self.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationBar.shadowImage = UIImage()
     }
     
@@ -71,7 +79,6 @@ extension Proxy: UINavigationControllerDelegate {
     
     // MARK: - UINavigationControllerDelegate
     @objc func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        guard viewController._snb != nil else { return }
         if let preferenceStyle = self.navigationBar.preferenceStyle {
             let navBar = self.navigationBar
             let transitionCoordinator = self._navigationController.transitionCoordinator

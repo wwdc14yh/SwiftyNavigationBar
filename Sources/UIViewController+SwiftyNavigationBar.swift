@@ -38,10 +38,6 @@ extension UIViewController {
         }
     }
     
-    var _snb: SwiftyNavigationBar? {
-        objc_getAssociatedObject(self, &UIViewController._snbKey) as? SwiftyNavigationBar
-    }
-    
     /// _snbKey
     private static var _snbKey: Void?
 }
