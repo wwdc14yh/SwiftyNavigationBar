@@ -270,19 +270,21 @@ internal class NavigationBar: UINavigationBar {
             let backgroundAlpha = vc.snb.style._backgroundAlpha ?? preferenceStyle._backgroundAlpha ?? Style.backgroundAlpha
             fakeBar.alpha = alpha * backgroundAlpha
             
+            func updateFrame() {
+                let _bounds = vc.view.bounds
+                let size = self._backgroundFakeBar.bounds.size
+                fakeBar.frame = CGRect(origin: _bounds.origin, size: size)
+            }
+            
             // set frame
-            let _bounds = vc.view.bounds
-            let size = self._backgroundFakeBar.bounds.size
-            fakeBar.frame = CGRect(origin: _bounds.origin, size: size)
+            updateFrame()
             
             // add subview
             vc.view.addSubview(fakeBar)
             
             DispatchQueue.main.async {
                 // update frame
-                let _bounds = vc.view.bounds
-                let size = self._backgroundFakeBar.bounds.size
-                fakeBar.frame = CGRect(origin: _bounds.origin, size: size)
+                updateFrame()
             }
         }
     }
